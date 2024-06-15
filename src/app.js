@@ -1,4 +1,5 @@
 import express from "express";
+import { errorMiddleware } from "./middleware/error.js";
 
 const app = express();
 
@@ -6,9 +7,13 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// TEST API
-app.get("/api/test", (req, res) => {
-  res.send("Test Passed !");
-});
+// IMPORTS ROUTES
+import messageRoutes from "./routes/message.route.js";
+
+// ROUTE DECLARATION
+app.use("/api/v1/message", messageRoutes);
+
+// ERROR HANDLER MIDDLEWARE
+app.use(errorMiddleware);
 
 export { app };
