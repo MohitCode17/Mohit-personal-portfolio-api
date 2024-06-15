@@ -29,4 +29,14 @@ export const handleDeleteMessage = catchAsyncErrors(
 );
 
 // GET MESSAGES CONTROLLER
-export const handleGetMessages = catchAsyncErrors(async (req, res, next) => {});
+export const handleGetMessages = catchAsyncErrors(async (req, res, next) => {
+  const messages = await Message.find();
+
+  if (messages.length <= 0)
+    return next(new ErrorHandler("No messages found !", 404));
+
+  res.status(200).json({
+    success: true,
+    messages,
+  });
+});
