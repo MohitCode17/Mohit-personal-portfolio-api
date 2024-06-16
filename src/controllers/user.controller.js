@@ -89,8 +89,7 @@ export const handleUserLogin = catchAsyncErrors(async (req, res, next) => {
 
   const user = await User.findOne({ email }).select("+password");
 
-  if (!user)
-    return next(new ErrorHandler("Invalid email or password!", 401));
+  if (!user) return next(new ErrorHandler("Invalid email or password!", 401));
 
   const isPasswordMatch = await user.comparePassword(password);
 
@@ -99,4 +98,17 @@ export const handleUserLogin = catchAsyncErrors(async (req, res, next) => {
 
   // GENEREATE JWT TOKEN
   generateAuthToken(user, "Login Successfully!", 200, res);
+});
+
+// LOGOUT USER CONTROLLER
+export const handleUserLogout = catchAsyncErrors(async (req, res, next) => {
+  res
+    .status(200)
+    .cookie("authToken", "", {
+      expires: new Date(Date.now()),
+    })
+    .json({
+      success: true,
+      message: "Logged out!",
+    });
 });

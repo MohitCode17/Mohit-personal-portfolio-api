@@ -1,6 +1,7 @@
 import express from "express";
 import {
   handleUserLogin,
+  handleUserLogout,
   handleUserRegister,
 } from "../controllers/user.controller.js";
 
@@ -15,5 +16,10 @@ router.post("/register", handleUserRegister);
 // PATH: /api/v1/user/login
 // METHOD: POST
 router.post("/login", handleUserLogin);
+
+// ROUTE: REGISTER USER
+// PATH: /api/v1/user/logout
+// METHOD: GET
+router.get("/logout", handleUserLogout);
 
 export default router;
