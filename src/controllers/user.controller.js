@@ -2,6 +2,7 @@ import ErrorHandler from "../middleware/error.js";
 import { catchAsyncErrors } from "../middleware/catchAsyncErrors.js";
 import cloudinary from "../config/cloudinary.js";
 import { User } from "../models/user.model.js";
+import { generateAuthToken } from "../utils/jwtToken.js";
 
 export const handleUserRegister = catchAsyncErrors(async (req, res, next) => {
   if (!req.files || Object.keys(req.files).length === 0)
@@ -74,8 +75,6 @@ export const handleUserRegister = catchAsyncErrors(async (req, res, next) => {
     },
   });
 
-  res.status(201).json({
-    success: true,
-    message: "User Registered",
-  });
+  // GENERATE JWT TOKEN
+  generateAuthToken(user, "User Registered!", 201, res);
 });
