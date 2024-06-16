@@ -4,6 +4,7 @@ import {
   handleUserLogout,
   handleUserRegister,
 } from "../controllers/user.controller.js";
+import { authenticate } from "../middleware/authenticate.js";
 
 const router = express.Router();
 
@@ -20,6 +21,6 @@ router.post("/login", handleUserLogin);
 // ROUTE: REGISTER USER
 // PATH: /api/v1/user/logout
 // METHOD: GET
-router.get("/logout", handleUserLogout);
+router.get("/logout", authenticate, handleUserLogout);
 
 export default router;
