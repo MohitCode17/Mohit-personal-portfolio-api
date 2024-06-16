@@ -1,5 +1,8 @@
 import express from "express";
-import { handleUserRegister } from "../controllers/user.controller.js";
+import {
+  handleUserLogin,
+  handleUserRegister,
+} from "../controllers/user.controller.js";
 
 const router = express.Router();
 
@@ -7,5 +10,10 @@ const router = express.Router();
 // PATH: /api/v1/user/register
 // METHOD: POST
 router.post("/register", handleUserRegister);
+
+// ROUTE: REGISTER USER
+// PATH: /api/v1/user/login
+// METHOD: POST
+router.post("/login", handleUserLogin);
 
 export default router;

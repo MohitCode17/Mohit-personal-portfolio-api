@@ -4,6 +4,7 @@ import cloudinary from "../config/cloudinary.js";
 import { User } from "../models/user.model.js";
 import { generateAuthToken } from "../utils/jwtToken.js";
 
+// REGISTER USER CONTROLLER
 export const handleUserRegister = catchAsyncErrors(async (req, res, next) => {
   if (!req.files || Object.keys(req.files).length === 0)
     return next(new ErrorHandler("User profile & resume are required!", 400));
@@ -77,4 +78,25 @@ export const handleUserRegister = catchAsyncErrors(async (req, res, next) => {
 
   // GENERATE JWT TOKEN
   generateAuthToken(user, "User Registered!", 201, res);
+});
+
+// LOGIN USER CONTROLLER
+export const handleUserLogin = catchAsyncErrors(async (req, res, next) => {
+  const { email, password } = req.body;
+
+  if (!email || !password)
+    return next(new ErrorHandler("Email and Password must be required!", 400));
+
+  const user = await User.findOne({ email }).select("+password");
+
+  if (!user)
+    return next(new ErrorHandler("Invalid email or password!", 401));
+
+  const isPasswordMatch = await user.comparePassword(password);
+
+  if (!isPasswordMatch)
+    return next(new ErrorHandler("Invalid email or password!", 401));
+
+  // GENEREATE JWT TOKEN
+  generateAuthToken(user, "Login Successfully!", 200, res);
 });
