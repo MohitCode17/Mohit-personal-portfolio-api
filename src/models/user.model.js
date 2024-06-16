@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Password is required!"],
       minLength: [8, "Password must contains at least 8 or more characters!"],
+      select: false,
     },
     avatar: {
       public_id: {

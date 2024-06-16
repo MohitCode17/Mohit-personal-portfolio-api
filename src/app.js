@@ -18,9 +18,11 @@ app.use(
 
 // IMPORTS ROUTES
 import messageRoutes from "./routes/message.route.js";
+import userRoutes from "./routes/user.route.js";
 
 // ROUTE DECLARATION
 app.use("/api/v1/message", messageRoutes);
+app.use("/api/v1/user", userRoutes);
 
 // ERROR HANDLER MIDDLEWARE
 app.use(errorMiddleware);
