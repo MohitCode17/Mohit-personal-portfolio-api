@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  handleGetProfile,
   handleUserLogin,
   handleUserLogout,
   handleUserRegister,
@@ -22,5 +23,10 @@ router.post("/login", handleUserLogin);
 // PATH: /api/v1/user/logout
 // METHOD: GET
 router.get("/logout", authenticate, handleUserLogout);
+
+// ROUTE: GET USER PROFILE
+// PATH: /api/v1/user/me
+// METHOD: GET
+router.get("/me", authenticate, handleGetProfile);
 
 export default router;

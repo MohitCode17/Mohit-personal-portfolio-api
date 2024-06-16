@@ -112,3 +112,12 @@ export const handleUserLogout = catchAsyncErrors(async (req, res, next) => {
       message: "Logged out!",
     });
 });
+
+// GET USER PROFILE
+export const handleGetProfile = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});

@@ -12,7 +12,6 @@ export const authenticate = catchAsyncErrors(async (req, res, next) => {
 
   const decoded = jwt.verify(authToken, config.jwt_secret_key);
 
-  console.log(decoded);
   req.user = await User.findById(decoded.id);
   next();
 });
