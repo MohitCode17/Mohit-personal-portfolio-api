@@ -202,3 +202,32 @@ export const handleUpdateProfile = catchAsyncErrors(async (req, res, next) => {
     user,
   });
 });
+
+// UPDATE PASSWORD CONTROLLER
+export const handleUpdatePassword = catchAsyncErrors(async (req, res, next) => {
+  const { currentPassword, newPassword, confirmPassword } = req.body;
+
+  const user = await User.findById(req.user.id).select("+password");
+
+  if (!currentPassword || !newPassword || !confirmPassword)
+    return next(new ErrorHandler("All fields are required!", 400));
+
+  const isPasswordMatch = await user.comparePassword(currentPassword);
+
+  if (!isPasswordMatch)
+    return next(new ErrorHandler("Current password do not match!", 401));
+
+  if (newPassword !== confirmPassword)
+    return next(
+      new ErrorHandler("New password & confirm password must be same!", 400)
+    );
+
+  // UPDATE PASSWORD
+  user.password = newPassword;
+  await user.save();
+
+  res.status(200).json({
+    success: true,
+    message: "Password updated!",
+  });
+});
