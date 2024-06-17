@@ -21,10 +21,12 @@ app.use(
 // IMPORTS ROUTES
 import messageRoutes from "./routes/message.route.js";
 import userRoutes from "./routes/user.route.js";
+import timelineRoutes from "./routes/timeline.route.js";
 
 // ROUTE DECLARATION
 app.use("/api/v1/message", messageRoutes);
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/timeline", timelineRoutes);
 
 // ERROR HANDLER MIDDLEWARE
 app.use(errorMiddleware);

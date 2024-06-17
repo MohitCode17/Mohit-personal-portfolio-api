@@ -13,6 +13,7 @@ const timelineSchema = new mongoose.Schema(
     timeline: {
       from: {
         type: String,
+        required: true,
       },
       to: {
         type: String,
