@@ -34,3 +34,18 @@ export const handleGetTimelines = catchAsyncErrors(async (req, res, next) => {
     timelines,
   });
 });
+
+// DELETE TIMELINE CONTROLLER
+export const handleDeleteTimeline = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+  const timeline = await Timeline.findById(id);
+
+  if (!timeline) return next(new ErrorHandler("Timeline not found!", 404));
+
+  await timeline.deleteOne();
+
+  res.status(200).json({
+    success: true,
+    messages: "Timeline deleted!",
+  });
+});
