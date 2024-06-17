@@ -1,6 +1,7 @@
 import express from "express";
 import {
   handleGetProfile,
+  handleGetProfileForPortFolio,
   handleUpdateProfile,
   handleUserLogin,
   handleUserLogout,
@@ -29,6 +30,11 @@ router.get("/logout", authenticate, handleUserLogout);
 // PATH: /api/v1/user/me
 // METHOD: GET
 router.get("/me", authenticate, handleGetProfile);
+
+// ROUTE: GET USER PROFILE FOR PORTFOLIO
+// PATH: /api/v1/user/me/portfolio
+// METHOD: GET
+router.get("/me/portfolio", handleGetProfileForPortFolio);
 
 // ROUTE: UPDATE USER PROFILE
 // PATH: /api/v1/user/me/profile/update

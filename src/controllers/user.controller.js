@@ -113,7 +113,7 @@ export const handleUserLogout = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-// GET USER PROFILE
+// GET USER PROFILE FOR DASHBOARD
 export const handleGetProfile = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user.id);
   res.status(200).json({
@@ -121,6 +121,21 @@ export const handleGetProfile = catchAsyncErrors(async (req, res, next) => {
     user,
   });
 });
+
+// GET USER PROFILE FOR PORTFOLIO
+export const handleGetProfileForPortFolio = catchAsyncErrors(
+  async (req, res, next) => {
+    const id = "666f2140a7b0d402f384ce4c";
+
+    const user = await User.findById(id);
+    console.log(user);
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  }
+);
 
 // UPDATE PROFILE CONTROLLER
 export const handleUpdateProfile = catchAsyncErrors(async (req, res, next) => {
