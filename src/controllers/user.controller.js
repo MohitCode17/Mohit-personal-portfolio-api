@@ -121,3 +121,69 @@ export const handleGetProfile = catchAsyncErrors(async (req, res, next) => {
     user,
   });
 });
+
+// UPDATE PROFILE CONTROLLER
+export const handleUpdateProfile = catchAsyncErrors(async (req, res, next) => {
+  const updatedData = {
+    fullName: req.body.fullName,
+    email: req.body.email,
+    phone: req.body.phone,
+    aboutMe: req.body.aboutMe,
+    githubUrl: req.body.githubUrl,
+    linkedinUrl: req.body.linkedinUrl,
+    instagramUrl: req.body.instagramUrl,
+    twitterUrl: req.body.twitterUrl,
+    facebookUrl: req.body.facebookUrl,
+  };
+
+  if (req.files && req.files.avatar) {
+    const avatar = req.files.avatar;
+    const user = await User.findById(req.user.id);
+
+    // GET EXISTING AVATAR PUBLIC ID AND DELETE FROM CLOUDINARY
+    const avatarPublicId = user.avatar.public_id;
+    await cloudinary.uploader.destroy(avatarPublicId);
+
+    // UPLOAD NEW AVATAR TO CLOUDINARY
+    const uploadResponseForAvatar = await cloudinary.uploader.upload(
+      avatar.tempFilePath,
+      { folder: "Portfolio Avatar" }
+    );
+
+    updatedData.avatar = {
+      public_id: uploadResponseForAvatar.public_id,
+      url: uploadResponseForAvatar.secure_url,
+    };
+  }
+
+  if (req.files && req.files.resume) {
+    const resume = req.files.resume;
+    const user = await User.findById(req.user.id);
+
+    // GET EXISTING RESUME PUBLIC ID AND DELETE FROM CLOUDINARY
+    const resumePublicId = user.resume.public_id;
+    await cloudinary.uploader.destroy(resumePublicId);
+
+    // UPLOAD NEW RESUME TO CLOUDINARY
+    const uploadResponseForResume = await cloudinary.uploader.upload(
+      resume.tempFilePath,
+      { folder: "Portfolio resume" }
+    );
+
+    updatedData.resume = {
+      public_id: uploadResponseForResume.public_id,
+      url: uploadResponseForResume.secure_url,
+    };
+  }
+
+  const user = await User.findByIdAndUpdate(req.user.id, updatedData, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "Profile Updated!",
+    user,
+  });
+});

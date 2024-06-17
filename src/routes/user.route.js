@@ -1,6 +1,7 @@
 import express from "express";
 import {
   handleGetProfile,
+  handleUpdateProfile,
   handleUserLogin,
   handleUserLogout,
   handleUserRegister,
@@ -28,5 +29,10 @@ router.get("/logout", authenticate, handleUserLogout);
 // PATH: /api/v1/user/me
 // METHOD: GET
 router.get("/me", authenticate, handleGetProfile);
+
+// ROUTE: UPDATE USER PROFILE
+// PATH: /api/v1/user/me/profile/update
+// METHOD: PUT
+router.put("/me/profile/update", authenticate, handleUpdateProfile);
 
 export default router;
