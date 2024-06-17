@@ -21,3 +21,16 @@ export const handleAddTimeline = catchAsyncErrors(async (req, res, next) => {
     newTimeline,
   });
 });
+
+// GET TIMELINES CONTROLLER
+export const handleGetTimelines = catchAsyncErrors(async (req, res, next) => {
+  const timelines = await Timeline.find();
+
+  if (timelines.length <= 0)
+    return next(new ErrorHandler("No timeline is created yet!", 404));
+
+  res.status(200).json({
+    success: true,
+    timelines,
+  });
+});
