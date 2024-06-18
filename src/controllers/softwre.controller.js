@@ -43,3 +43,35 @@ export const handleAddSoftware = catchAsyncErrors(async (req, res, next) => {
     softwareApplication,
   });
 });
+
+// GET ALL SOFTWARE CONTROLLER
+export const handleGetSoftware = catchAsyncErrors(async (req, res, next) => {
+  const softwares = await Software.find();
+
+  if (softwares.length <= 0)
+    return next(new ErrorHandler("No software added", 404));
+
+  res.status(200).json({
+    success: true,
+    softwares,
+  });
+});
+
+// DELETE SOFTWARE CONTROLLER
+export const handleDeleteSoftware = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+
+  const software = await Software.findById(id);
+
+  if (!software) return next(new ErrorHandler("No software found", 404));
+
+  const svgPublicId = software.svg.public_id;
+
+  await cloudinary.uploader.destroy(svgPublicId);
+  await software.deleteOne();
+
+  res.status(200).json({
+    success: true,
+    message: "Software Deleted!",
+  });
+});
