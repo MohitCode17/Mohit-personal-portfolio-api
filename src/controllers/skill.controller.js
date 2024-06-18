@@ -55,3 +55,28 @@ export const handleGetSkills = catchAsyncErrors(async (req, res, next) => {
     skills,
   });
 });
+
+// UPDATE SKILLS CONTROLLER
+export const handleUpdateSkills = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+
+  let skill = await Skill.findById(id);
+  if (!skill) return next(new ErrorHandler("Skill not found!", 404));
+
+  const { proficiency } = req.body;
+
+  skill = await Skill.findByIdAndUpdate(
+    id,
+    { proficiency },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(200).json({
+    success: true,
+    message: "Skill updated!",
+    skill,
+  });
+});
