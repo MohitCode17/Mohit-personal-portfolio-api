@@ -23,12 +23,14 @@ import messageRoutes from "./routes/message.route.js";
 import userRoutes from "./routes/user.route.js";
 import timelineRoutes from "./routes/timeline.route.js";
 import softwareRoutes from "./routes/software.route.js";
+import skillRoutes from "./routes/skill.route.js";
 
 // ROUTE DECLARATION
 app.use("/api/v1/message", messageRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/timeline", timelineRoutes);
 app.use("/api/v1/software", softwareRoutes);
+app.use("/api/v1/skill", skillRoutes);
 
 // ERROR HANDLER MIDDLEWARE
 app.use(errorMiddleware);

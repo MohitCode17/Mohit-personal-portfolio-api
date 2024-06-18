@@ -4,7 +4,7 @@ import {
   handleAddSoftware,
   handleDeleteSoftware,
   handleGetSoftware,
-} from "../controllers/softwre.controller.js";
+} from "../controllers/software.controller.js";
 
 const router = express.Router();
 
