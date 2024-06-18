@@ -42,3 +42,16 @@ export const handleAddSkill = catchAsyncErrors(async (req, res, next) => {
     skill,
   });
 });
+
+// GET ALL SKILLS CONTROLLER
+export const handleGetSkills = catchAsyncErrors(async (req, res, next) => {
+  const skills = await Skill.find();
+
+  if (skills.length <= 0)
+    return next(new ErrorHandler("No skills added!", 404));
+
+  res.status(200).json({
+    success: true,
+    skills,
+  });
+});
