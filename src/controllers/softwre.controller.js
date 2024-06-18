@@ -43,3 +43,16 @@ export const handleAddSoftware = catchAsyncErrors(async (req, res, next) => {
     softwareApplication,
   });
 });
+
+// GET ALL SOFTWARE CONTROLLER
+export const handleGetSoftware = catchAsyncErrors(async (req, res, next) => {
+  const softwares = await Software.find();
+
+  if (softwares.length <= 0)
+    return next(new ErrorHandler("No software added", 404));
+
+  res.status(200).json({
+    success: true,
+    softwares,
+  });
+});
