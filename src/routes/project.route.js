@@ -2,6 +2,7 @@ import express from "express";
 import { authenticate } from "../middleware/authenticate.js";
 import {
   handleAddProject,
+  handleDeleteProject,
   handleGetProject,
   handleGetProjects,
   handleUpdateProject,
@@ -28,5 +29,10 @@ router.get("/get/:id", handleGetProject);
 // PATH: /api/v1/project/update/:id
 // METHOD: PUT
 router.put("/update/:id", authenticate, handleUpdateProject);
+
+// ROUTE: DELETE PROJECT
+// PATH: /api/v1/project/delete/:id
+// METHOD: DELETE
+router.delete("/delete/:id", authenticate, handleDeleteProject);
 
 export default router;

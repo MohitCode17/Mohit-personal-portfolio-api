@@ -138,3 +138,20 @@ export const handleUpdateProject = catchAsyncErrors(async (req, res, next) => {
     project,
   });
 });
+
+// DELETE PROJECT CONTROLLER
+export const handleDeleteProject = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+
+  let project = await Project.findById(id);
+  if (!project) return next(new ErrorHandler("Project already deleted!", 404));
+
+  const projectBannerPublicId = project.projectBanner.public_id;
+  await cloudinary.uploader.destroy(projectBannerPublicId);
+  await project.deleteOne();
+
+  res.status(200).json({
+    success: true,
+    message: "Project Deleted!",
+  });
+});
