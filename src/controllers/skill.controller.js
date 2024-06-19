@@ -80,3 +80,20 @@ export const handleUpdateSkills = catchAsyncErrors(async (req, res, next) => {
     skill,
   });
 });
+
+// DELETE SKILL CONTROLLER
+export const handleDeleteSkills = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+
+  let skill = await Skill.findById(id);
+  if (!skill) return next(new ErrorHandler("Skill already deleted!", 404));
+
+  const skillPublicId = skill.svg.public_id;
+  await cloudinary.uploader.destroy(skillPublicId);
+  await skill.deleteOne();
+
+  res.status(200).json({
+    success: true,
+    message: "Skill Deleted!",
+  });
+});
