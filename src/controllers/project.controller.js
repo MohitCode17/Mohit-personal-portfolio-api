@@ -69,7 +69,7 @@ export const handleAddProject = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// ADD PROJECT CONTROLLER
+// GET ALL PROJECTS CONTROLLER
 export const handleGetProjects = catchAsyncErrors(async (req, res, next) => {
   const projects = await Project.find();
 
@@ -79,5 +79,18 @@ export const handleGetProjects = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
     projects,
+  });
+});
+
+// GET PROJECT CONTROLLER
+export const handleGetProject = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+  const project = await Project.findById(id);
+
+  if (!project) return next(new ErrorHandler("No project found!", 404));
+
+  res.status(200).json({
+    success: true,
+    project,
   });
 });

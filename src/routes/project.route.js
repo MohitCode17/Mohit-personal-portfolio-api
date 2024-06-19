@@ -2,6 +2,7 @@ import express from "express";
 import { authenticate } from "../middleware/authenticate.js";
 import {
   handleAddProject,
+  handleGetProject,
   handleGetProjects,
 } from "../controllers/project.controller.js";
 
@@ -16,5 +17,10 @@ router.post("/add", authenticate, handleAddProject);
 // PATH: /api/v1/project/getall
 // METHOD: GET
 router.get("/getall", handleGetProjects);
+
+// ROUTE: GET PROJECT
+// PATH: /api/v1/project/get/:id
+// METHOD: GET
+router.get("/get/:id", handleGetProject);
 
 export default router;
