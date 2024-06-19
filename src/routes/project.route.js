@@ -1,6 +1,9 @@
 import express from "express";
 import { authenticate } from "../middleware/authenticate.js";
-import { handleAddProject } from "../controllers/project.controller.js";
+import {
+  handleAddProject,
+  handleGetProjects,
+} from "../controllers/project.controller.js";
 
 const router = express.Router();
 
@@ -8,5 +11,10 @@ const router = express.Router();
 // PATH: /api/v1/project/add
 // METHOD: POST
 router.post("/add", authenticate, handleAddProject);
+
+// ROUTE: GET ALL PROJECTS
+// PATH: /api/v1/project/getall
+// METHOD: GET
+router.get("/getall", handleGetProjects);
 
 export default router;
