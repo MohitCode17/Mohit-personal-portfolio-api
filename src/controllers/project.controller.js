@@ -94,3 +94,47 @@ export const handleGetProject = catchAsyncErrors(async (req, res, next) => {
     project,
   });
 });
+
+// UPDATE PROJECT CONTROLLER
+export const handleUpdateProject = catchAsyncErrors(async (req, res, next) => {
+  const updatedData = {
+    title: req.body.title,
+    description: req.body.description,
+    gitRepoLink: req.body.gitRepoLink,
+    projectLink: req.body.projectLink,
+    technologies: req.body.technologies,
+    stack: req.body.stack,
+    deployed: req.body.deployed,
+  };
+
+  if (req.files && req.files.projectBanner) {
+    const projectBanner = req.files.projectBanner;
+    const project = await Project.findById(req.params.id);
+
+    // GET EXISTING IMAGE PUBLIC ID AND DELETE FROM CLOUDINARY
+    const bannerPublicId = project.projectBanner.public_id;
+    await cloudinary.uploader.destroy(bannerPublicId);
+
+    // UPLOAD NEW AVATAR TO CLOUDINARY
+    const uploadResponseForBanner = await cloudinary.uploader.upload(
+      projectBanner.tempFilePath,
+      { folder: "Portfolio projects" }
+    );
+
+    updatedData.projectBanner = {
+      public_id: uploadResponseForBanner.public_id,
+      url: uploadResponseForBanner.secure_url,
+    };
+  }
+
+  const project = await Project.findByIdAndUpdate(req.params.id, updatedData, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "Project Updated!",
+    project,
+  });
+});

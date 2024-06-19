@@ -4,6 +4,7 @@ import {
   handleAddProject,
   handleGetProject,
   handleGetProjects,
+  handleUpdateProject,
 } from "../controllers/project.controller.js";
 
 const router = express.Router();
@@ -22,5 +23,10 @@ router.get("/getall", handleGetProjects);
 // PATH: /api/v1/project/get/:id
 // METHOD: GET
 router.get("/get/:id", handleGetProject);
+
+// ROUTE: UPDATE PROJECT
+// PATH: /api/v1/project/update/:id
+// METHOD: PUT
+router.put("/update/:id", authenticate, handleUpdateProject);
 
 export default router;
