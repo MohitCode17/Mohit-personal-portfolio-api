@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  handleForgotPassword,
   handleGetProfile,
   handleGetProfileForPortFolio,
   handleUpdatePassword,
@@ -46,5 +47,10 @@ router.put("/me/profile/update", authenticate, handleUpdateProfile);
 // PATH: /api/v1/user/password/update
 // METHOD: PUT
 router.put("/password/update", authenticate, handleUpdatePassword);
+
+// ROUTE: FORGOT USER PASSWORD
+// PATH: /api/v1/user/password/forgot
+// METHOD: POST
+router.post("/password/forgot", handleForgotPassword);
 
 export default router;

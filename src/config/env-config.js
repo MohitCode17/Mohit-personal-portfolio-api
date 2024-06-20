@@ -13,6 +13,8 @@ const _config = {
   smtp_service: process.env.SMTP_SERVICE,
   smtp_mail: process.env.SMTP_MAIL,
   smtp_password: process.env.SMTP_PASSWORD,
+  dashboard_url: process.env.DASHBOARD_URL,
+  frontend_url: process.env.FRONTEND_URL,
 };
 
 export const config = Object.freeze(_config);
