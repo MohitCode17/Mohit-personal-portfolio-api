@@ -5,6 +5,7 @@ import { User } from "../models/user.model.js";
 import { generateAuthToken } from "../utils/jwtToken.js";
 import { config } from "../config/env-config.js";
 import { sendMail } from "../utils/sendMail.js";
+import crypto from "crypto";
 
 // REGISTER USER CONTROLLER
 export const handleUserRegister = catchAsyncErrors(async (req, res, next) => {
@@ -267,4 +268,40 @@ export const handleForgotPassword = catchAsyncErrors(async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
     return next(new ErrorHandler(error.message, 500));
   }
+});
+
+// HANDLE RESET PASSWORD CONTROLLER
+export const handleResetPassword = catchAsyncErrors(async (req, res, next) => {
+  const { token } = req.params;
+
+  const resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(token)
+    .digest("hex");
+
+  const user = await User.findOne({
+    resetPasswordToken,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
+
+  if (!user)
+    return next(
+      new ErrorHandler(
+        "Reset password token is invalid or has been expired.",
+        400
+      )
+    );
+
+  if (req.body.password !== req.body.confirmPassword)
+    return next(
+      new ErrorHandler("Password & confirm password do not match.", 400)
+    );
+
+  user.password = await req.body.password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+
+  await user.save();
+
+  generateAuthToken(user, "Password reset successfully", 200, res);
 });

@@ -3,6 +3,7 @@ import {
   handleForgotPassword,
   handleGetProfile,
   handleGetProfileForPortFolio,
+  handleResetPassword,
   handleUpdatePassword,
   handleUpdateProfile,
   handleUserLogin,
@@ -52,5 +53,10 @@ router.put("/password/update", authenticate, handleUpdatePassword);
 // PATH: /api/v1/user/password/forgot
 // METHOD: POST
 router.post("/password/forgot", handleForgotPassword);
+
+// ROUTE: RESET USER PASSWORD
+// PATH: /api/v1/user/password/reset/:token
+// METHOD: PUT
+router.put("/password/reset/:token", handleResetPassword);
 
 export default router;
