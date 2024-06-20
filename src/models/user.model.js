@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { config } from "../config/env-config.js";
+import crypto from "crypto";
 
 const userSchema = new mongoose.Schema(
   {
@@ -86,6 +87,23 @@ userSchema.methods.generateJsonWebToken = function () {
   return jwt.sign({ id: this._id }, config.jwt_secret_key, {
     expiresIn: "10d",
   });
+};
+
+// GENERATE RESET PASSWORD TOKEN
+userSchema.methods.generateResetPasswordToken = function () {
+  // Generate Token
+  const resetToken = crypto.randomBytes(20).toString("hex");
+
+  // Hashing and Add Reset Token to UserSchema
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  // Set Reset Token Expires Time
+  this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
+
+  return resetToken;
 };
 
 const User = mongoose.model("User", userSchema);
