@@ -21,6 +21,6 @@ router.get("/getall", handleGetTimelines);
 // ROUTE: DELETE TIMELINE
 // PATH: /api/v1/timeline/delete/:id
 // METHOD: DELETE
-router.delete("/delete/:id", handleDeleteTimeline);
+router.delete("/delete/:id", authenticate, handleDeleteTimeline);
 
 export default router;
