@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Phone number is required!"],
     },
+    intro: {
+      type: String,
+      required: [true, "Please write your short intro!"],
+    },
     aboutMe: {
       type: String,
       required: [true, "About me section is required!"],
