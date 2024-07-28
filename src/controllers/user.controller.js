@@ -130,10 +130,9 @@ export const handleGetProfile = catchAsyncErrors(async (req, res, next) => {
 // GET USER PROFILE FOR PORTFOLIO
 export const handleGetProfileForPortFolio = catchAsyncErrors(
   async (req, res, next) => {
-    const id = "666f2140a7b0d402f384ce4c";
+    const id = "668a436b6862b26589df6bf7";
 
     const user = await User.findById(id);
-    console.log(user);
 
     res.status(200).json({
       success: true,
