@@ -12,9 +12,12 @@ const projectSchema = new mongoose.Schema(
     },
     gitRepoLink: String,
     projectLink: String,
-    technologies: String,
     stack: String,
     deployed: String,
+    tags: {
+      type: [{ type: String }],
+      required: true,
+    },
     projectBanner: {
       public_id: {
         type: String,

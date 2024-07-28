@@ -14,9 +14,9 @@ export const handleAddProject = catchAsyncErrors(async (req, res, next) => {
     description,
     gitRepoLink,
     projectLink,
-    technologies,
     stack,
     deployed,
+    tags,
   } = req.body;
 
   if (
@@ -24,9 +24,9 @@ export const handleAddProject = catchAsyncErrors(async (req, res, next) => {
     !description ||
     !gitRepoLink ||
     !projectLink ||
-    !technologies ||
     !stack ||
-    !deployed
+    !deployed ||
+    !tags
   )
     return next(new ErrorHandler("All fields are required!", 400));
 
@@ -53,13 +53,13 @@ export const handleAddProject = catchAsyncErrors(async (req, res, next) => {
     description,
     gitRepoLink,
     projectLink,
-    technologies,
     stack,
     deployed,
     projectBanner: {
       public_id: uploadProjectBannerResponse.public_id,
       url: uploadProjectBannerResponse.secure_url,
     },
+    tags: JSON.parse(tags),
   });
 
   res.status(201).json({
@@ -102,9 +102,9 @@ export const handleUpdateProject = catchAsyncErrors(async (req, res, next) => {
     description: req.body.description,
     gitRepoLink: req.body.gitRepoLink,
     projectLink: req.body.projectLink,
-    technologies: req.body.technologies,
     stack: req.body.stack,
     deployed: req.body.deployed,
+    tags: req.body.tags ? JSON.parse(req.body.tags) : [], // Parse tags from JSON string
   };
 
   if (req.files && req.files.projectBanner) {
